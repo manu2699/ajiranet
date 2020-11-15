@@ -1,0 +1,18 @@
+{
+	"devices": [
+		A1:{
+			"type": "COMPUTER",
+			"name": "A1",
+			"strength": 5,
+			"connections": ["A2",]
+		},
+		A2:{
+			"type": "COMPUTER",
+			"name": "A2",
+			"strength": 5,
+			"connections": ["A4"]
+		},
+		A3:{ "type": "COMPUTER", "name": "A3", "strength": 5 },
+		A4:{ "type": "COMPUTER", "name": "A4", "strength": 5 }
+	]
+}
