@@ -35,18 +35,18 @@ let bfs = (src, dest) => {
 
   queue.push(src);
   visited.add(src);
-  dist[src] = 0;
+  // dist[src] = 0;
   while (queue.length > 0) {
     let curr = queue.shift();
     if (graph[curr].connections.length >= 1) {
       for (let neighbour of graph[curr].connections) {
         if (!visited.has(neighbour)) {
           visited.add(curr);
-          dist[neighbour] = dist[curr] + 1;
+          // dist[neighbour] = dist[curr] + 1;
           pred[neighbour] = curr;
           queue.push(neighbour);
           if (neighbour === dest) {
-            return { isPathAvailable: true, pred, dist }
+            return { isPathAvailable: true, pred }
           }
         }
       }
