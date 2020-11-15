@@ -1,34 +1,25 @@
-curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /connections content-type : application/json {"source" : "A1", "targets" : ["A2", "A3"]}' 
-
-curl --request POST --url http://localhost:8080/ajiranet/process --data 'MODIFY /devices/A1/strength content-type : application/json {"value": "Helloworld"}'  
-curl --request POST --url http://localhost:8080/ajiranet/process --data 'MODIFY /devices/A1/strength content-type : application/json {"value": 2}'  
-
-curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "COMPUTER", "name" : "A1"}' 
-
-curl --request POST --url http://localhost:8080/ajiranet/process --data 'FETCH /info-routes?from=A2&to=R1'
-
-curl --request POST --url http://localhost:8080/ajiranet/process --data 'FETCH /info-routes?from=A1&to=A4' 
-
+*To Fetch Devices
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'FETCH /devices' 
 
-to create graph 
-
+*To create graph 
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "COMPUTER", "name" : "A1"}' 
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "COMPUTER", "name" : "A2"}' 
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "COMPUTER", "name" : "A3"}' 
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "COMPUTER", "name" : "A4"}' 
 
-add connections
+*To add connections
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /connections content-type : application/json {"source" : "A1", "targets" : ["A2", "A3"]}' 
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /connections content-type : application/json {"source" : "A2", "targets" : ["A4"]}' 
 
+*To Find path
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'FETCH /info-routes?from=A1&to=A4' 
 
+*To Modify strength
+curl --request POST --url http://localhost:8080/ajiranet/process --data 'MODIFY /devices/A1/strength content-type : application/json {"value": 2}'  
 
 
-
-
-
+Edge Cases with Errors.
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices'
-
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "PHONE", "name" : "A3"}' 
+curl --request POST --url http://localhost:8080/ajiranet/process --data 'MODIFY /devices/A1/strength content-type : application/json {"value": "Helloworld"}'  
+curl --request POST --url http://localhost:8080/ajiranet/process --data 'FETCH /info-routes?from=A2&to=R1'

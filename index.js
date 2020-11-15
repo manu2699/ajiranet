@@ -1,6 +1,6 @@
 const express = require("express");
-const https = require("https");
-const fs = require("fs");
+// const https = require("https");
+// const fs = require("fs");
 let Graph = require("./graph");
 
 const app = express();
@@ -9,11 +9,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.post("/ajiranet/process", (req, res) => {
+  //parsing data with the format
   let body = Object.keys(req.body);
   let strBody = body[0];
-  let command = strBody.split(" ")[0];
+  let command = strBody.split(" ")[0]; //command will be the First string in data
   let subPath = strBody.split(" ")[1];
-  let respMsg = "", content = {}, respStatus = 0;
+
+  let respMsg = { msg: "Route Not Found" }, content = {}, respStatus = 400;
 
   switch (command) {
 
@@ -21,6 +23,8 @@ app.post("/ajiranet/process", (req, res) => {
       switch (subPath) {
         case "/devices":
           try {
+            //Searching for the 1st { (curly brace)'s index
+            //Then till the end it is a json content thus using JSON.parse
             content = JSON.parse(strBody.substring(strBody.search("{")))
             let { status, msg } = Graph.addDevice(content)
             respStatus = status;
@@ -32,9 +36,11 @@ app.post("/ajiranet/process", (req, res) => {
           break;
         case "/connections":
           try {
+            //parsing the body
             content = JSON.parse(strBody.substring(strBody.search("{")) + "[]}")
             let targetString = Object.keys(Object.values(req.body)[0]);
             content.targets = targetString[0].split("\"").filter(target => target.search(",") === -1 && target.length > 0)
+
             let { status, msg } = Graph.addConnections(content);
             respStatus = status
             respMsg = { msg }
@@ -43,9 +49,6 @@ app.post("/ajiranet/process", (req, res) => {
             respMsg = { msg: "Invalid Command Syntax." }
           }
           break;
-        default:
-          respStatus = 400
-          respMsg = { msg: "Route not Found" }
       }
       break;
 
@@ -66,9 +69,6 @@ app.post("/ajiranet/process", (req, res) => {
           respStatus = status
           respMsg = { msg }
           break;
-        default:
-          respStatus = 400
-          respMsg = { msg: "Route not Found" }
       }
       break;
 
@@ -79,14 +79,13 @@ app.post("/ajiranet/process", (req, res) => {
       respStatus = status
       respMsg = { msg }
       break;
-    default:
-      respStatus = 400
-      respMsg = { msg: "Route not Found" }
   }
   res.status(respStatus).json({ ...respMsg });
 });
 
 const port = 8080;
+
+//Couldn't make curl commands with secure enabled :(
 
 // https.createServer({
 //   key: fs.readFileSync('./httpsServer/server.key'),
