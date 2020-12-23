@@ -2,7 +2,7 @@ let Validators = require("./validators");
 let Graph = require("./graph");
 
 let addDevice = (data) => {
-  let { status, msg, isValid } = Validators.addValidator(data)
+  let { status, msg, isValid } = Validators.addValidator(data, Graph.get())
   if (!isValid)
     return { status, msg }
 

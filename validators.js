@@ -1,6 +1,8 @@
-exports.addValidator = (data) => {
+exports.addValidator = (data, graph) => {
   if (data.type !== "COMPUTER" && data.type !== "REPEATER")
     return { status: 400, msg: `Type ${data.type} is not supported`, isValid: false }
+  if (graph[data.name])
+    return { status: 400, msg: `Node ${data.name} is already found`, isValid: false }
   return { isValid: true }
 }
 
