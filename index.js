@@ -1,7 +1,7 @@
 const express = require("express");
 // const https = require("https");
 // const fs = require("fs");
-let Graph = require("./graph");
+let GraphController = require("./controller");
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -26,7 +26,7 @@ app.post("/ajiranet/process", (req, res) => {
             //Searching for the 1st { (curly brace)'s index
             //Then till the end it is a json content thus using JSON.parse
             content = JSON.parse(strBody.substring(strBody.search("{")))
-            let { status, msg } = Graph.addDevice(content)
+            let { status, msg } = GraphController.addDevice(content)
             respStatus = status;
             respMsg = { msg };
           } catch (e) {
@@ -41,7 +41,7 @@ app.post("/ajiranet/process", (req, res) => {
             let targetString = Object.keys(Object.values(req.body)[0]);
             content.targets = targetString[0].split("\"").filter(target => target.search(",") === -1 && target.length > 0)
 
-            let { status, msg } = Graph.addConnections(content);
+            let { status, msg } = GraphController.addConnections(content);
             respStatus = status
             respMsg = { msg }
           } catch (e) {
@@ -55,7 +55,7 @@ app.post("/ajiranet/process", (req, res) => {
     case "FETCH":
       switch (subPath) {
         case "/devices":
-          let resp = Graph.fetchDevices()
+          let resp = GraphController.fetchDevices()
           respStatus = 200
           respMsg = { ...resp }
           break;
@@ -65,7 +65,7 @@ app.post("/ajiranet/process", (req, res) => {
             respStatus = 400
             respMsg = { msg: "Invalid Request" }
           }
-          let { msg, status } = Graph.findPath(routes)
+          let { msg, status } = GraphController.findPath(routes)
           respStatus = status
           respMsg = { msg }
           break;
@@ -75,7 +75,7 @@ app.post("/ajiranet/process", (req, res) => {
     case "MODIFY":
       content = JSON.parse(strBody.substring(strBody.search("{")))
       content.device = subPath.split("/")[2]
-      let { msg, status } = Graph.modifyStrength(content);
+      let { msg, status } = GraphController.modifyStrength(content);
       respStatus = status
       respMsg = { msg }
       break;

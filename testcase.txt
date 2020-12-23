@@ -7,9 +7,12 @@ curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE 
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "COMPUTER", "name" : "A3"}' 
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "COMPUTER", "name" : "A4"}' 
 
+curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /devices content-type : application/json {"type" : "REPEATER", "name" : "A5"}' 
+
 *To add connections
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /connections content-type : application/json {"source" : "A1", "targets" : ["A2", "A3"]}' 
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /connections content-type : application/json {"source" : "A2", "targets" : ["A4"]}' 
+curl --request POST --url http://localhost:8080/ajiranet/process --data 'CREATE /connections content-type : application/json {"source" : "A5", "targets" : ["A4"]}' 
 
 *To Find path
 curl --request POST --url http://localhost:8080/ajiranet/process --data 'FETCH /info-routes?from=A1&to=A4' 
