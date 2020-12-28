@@ -12,6 +12,16 @@ exports.addConnectionValidator = (data, graph) => {
   return { isValid: true }
 }
 
+exports.addRedirectionValidator = (data, graph) => {
+  if (!graph[data.from])
+    return { status: 400, msg: `Node ${data.from} is not found`, isValid: false }
+  if (!graph[data.to])
+    return { status: 400, msg: `Node ${data.to} is not found`, isValid: false }
+  if (graph[data.from].blacklists.indexOf(data.to) !== -1)
+    return { status: 400, msg: `Node ${data.to} is blacklisted`, isValid: false }
+  return { isValid: true }
+}
+
 exports.strengthValidator = (data, graph) => {
   if (!Number.isInteger(data.value))
     return { status: 400, msg: `Value should be an integer`, isValid: false }

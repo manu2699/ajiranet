@@ -10,6 +10,15 @@ let addDevice = (data) => {
   return { status: 200, msg: `Device added` }
 }
 
+let addRedirect = (data) => {
+  let { status, msg, isValid } = Validators.addRedirectionValidator(data, Graph.get())
+  if (!isValid)
+    return { status, msg }
+
+  Graph.redirect(data)
+  return { status: 200, msg: `Redirection added` }
+}
+
 let fetchDevices = () => {
   return { ...Graph.fetch() }
 }
@@ -19,8 +28,17 @@ let addConnections = (data) => {
   if (!isValid)
     return { status, msg }
 
-  Graph.connecions(data);
+  Graph.connections(data);
   return { status: 200, msg: `Connected Successfully` }
+}
+
+let addBlackLists = (data) => {
+  let { status, msg, isValid } = Validators.addConnectionValidator(data, Graph.get())
+  if (!isValid)
+    return { status, msg }
+
+  Graph.blacklists(data);
+  return { status: 200, msg: `Added Blacklists Successfully` }
 }
 
 let modifyStrength = (data) => {
@@ -41,11 +59,13 @@ let findPath = (data) => {
   if (!isPathAvailable)
     return { status: 200, msg: "No route found" }
 
-  let pathString = Graph.getPath(data, pred)
+  let { pathString, canTraverse } = Graph.getPath(data, pred)
+  if (!canTraverse)
+    return { status: 200, msg: "Couldn't Reach destination" }
 
   return { status: 200, msg: `Route is ${pathString}` }
 };
 
 module.exports = {
-  addDevice, fetchDevices, addConnections, modifyStrength, findPath
+  addDevice, fetchDevices, addConnections, modifyStrength, findPath, addRedirect, addBlackLists
 }

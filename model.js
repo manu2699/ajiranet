@@ -8,7 +8,8 @@ let GraphSchema = {
     "type": { "type": "string" }, // Can also be enum of ["COMPUTER", "REPEATER"]
     "name": { "type": "string" },
     "strength": { "type": "integer" },
-    "connections": { "type": "array" }
+    "connections": { "type": "array" },
+    "redirect": { "type": "string" }
   }
 };
 

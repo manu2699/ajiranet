@@ -3,19 +3,21 @@
 		"type": "COMPUTER",
 		"name": "A1",
 		"strength": 5,
-		"connections": ["A2", "A3", "A4"]
+		"connections": ["A2", "A3"],
+		"blacklists": ["A2"]
 	},
 	"A2": {
 		"type": "COMPUTER",
 		"name": "A2",
 		"strength": 5,
-		"connections": ["A4"]
+		"connections": ["A1"],
+		"blacklists": []
 	},
 	"A3": {
 		"type": "COMPUTER",
 		"name": "A3",
 		"strength": 5,
-		"connections": ["A4"]
-	},
-	"A4": { "type": "COMPUTER", "name": "A4", "strength": 5, "connections": [] }
+		"connections": ["A1"],
+		"blacklists": []
+	}
 }

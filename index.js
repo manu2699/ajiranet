@@ -49,6 +49,34 @@ app.post("/ajiranet/process", (req, res) => {
             respMsg = { msg: "Invalid Command Syntax." }
           }
           break;
+        case "/redirect":
+          try {
+            //Searching for the 1st { (curly brace)'s index
+            //Then till the end it is a json content thus using JSON.parse
+            content = JSON.parse(strBody.substring(strBody.search("{")))
+            let { status, msg } = GraphController.addRedirect(content)
+            respStatus = status;
+            respMsg = { msg };
+          } catch (e) {
+            respStatus = 400;
+            respMsg = { msg: "Invalid Command." }
+          }
+          break;
+        case "/blacklists":
+          try {
+            //parsing the body
+            content = JSON.parse(strBody.substring(strBody.search("{")) + "[]}")
+            let targetString = Object.keys(Object.values(req.body)[0]);
+            content.targets = targetString[0].split("\"").filter(target => target.search(",") === -1 && target.length > 0)
+
+            let { status, msg } = GraphController.addBlackLists(content);
+            respStatus = status
+            respMsg = { msg }
+          } catch (e) {
+            respStatus = 400;
+            respMsg = { msg: "Invalid Command Syntax." }
+          }
+          break;
       }
       break;
 
